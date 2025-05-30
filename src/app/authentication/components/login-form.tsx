@@ -47,7 +47,7 @@ const LoginForm = () => {
       email: "",
       password: "",
     },
-  });
+  })
 
   const handleSubmit = async (values: z.infer<typeof loginSchema>) => {
     await authClient.signIn.email(
