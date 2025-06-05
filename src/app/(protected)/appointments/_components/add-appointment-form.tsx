@@ -11,7 +11,7 @@ import { NumericFormat } from "react-number-format";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { upsertAppointment } from "@/actions/upsert-appointment";
+import { addAppointment } from "@/actions/add-appointment";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -63,7 +63,7 @@ const formSchema = z.object({
   }),
 });
 
-interface UpsertAppointmentFormProps {
+interface AddAppointmentFormProps {
   isOpen: boolean;
   patients: (typeof patientsTable.$inferSelect)[];
   doctors: (typeof doctorsTable.$inferSelect)[];
@@ -71,13 +71,13 @@ interface UpsertAppointmentFormProps {
   onSuccess?: () => void;
 }
 
-const UpsertAppointmentForm = ({
+const AddAppointmentForm = ({
   appointment,
   patients,
   doctors,
   onSuccess,
   isOpen,
-}: UpsertAppointmentFormProps) => {
+}: AddAppointmentFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     shouldUnregister: true,
     resolver: zodResolver(formSchema),
@@ -119,7 +119,7 @@ const UpsertAppointmentForm = ({
     }
   }, [isOpen, form, appointment]);
 
-  const upsertAppointmentAction = useAction(upsertAppointment, {
+  const addAppointmentAction = useAction(addAppointment, {
     onSuccess: () => {
       toast.success("Agendamento criado com sucesso.");
       onSuccess?.();
@@ -130,13 +130,13 @@ const UpsertAppointmentForm = ({
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    upsertAppointmentAction.execute({
+    addAppointmentAction.execute({
       ...values,
       id: appointment?.id,
       appointmentPriceInCents: values.appointmentPrice * 100,
     });
   };
-	
+
   const isDateTimeEnabled = watchedPatientId && watchedDoctorId;
 
   return (
@@ -312,8 +312,8 @@ const UpsertAppointmentForm = ({
           />
 
           <DialogFooter>
-            <Button type="submit" disabled={upsertAppointmentAction.isPending}>
-              {upsertAppointmentAction.isPending
+            <Button type="submit" disabled={addAppointmentAction.isPending}>
+              {addAppointmentAction.isPending
                 ? "Salvando..."
                 : appointment
                   ? "Salvar alterações"
@@ -326,4 +326,4 @@ const UpsertAppointmentForm = ({
   );
 };
 
-export default UpsertAppointmentForm;
+export default AddAppointmentForm;
