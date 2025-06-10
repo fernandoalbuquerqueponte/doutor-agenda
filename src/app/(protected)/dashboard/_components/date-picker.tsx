@@ -4,6 +4,7 @@ import { addMonths, format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { parseAsIsoDate, useQueryState } from "nuqs";
+import * as React from "react";
 import { DateRange } from "react-day-picker";
 
 import { Button } from "@/components/ui/button";
@@ -26,16 +27,18 @@ export function DatePicker({
     "to",
     parseAsIsoDate.withDefault(addMonths(new Date(), 1)),
   );
-
   const handleDateSelect = (dateRange: DateRange | undefined) => {
     if (dateRange?.from) {
-      setFrom(dateRange.from);
+      setFrom(dateRange.from, {
+        shallow: false,
+      });
     }
     if (dateRange?.to) {
-      setTo(dateRange.to);
+      setTo(dateRange.to, {
+        shallow: false,
+      });
     }
   };
-
   const date = {
     from,
     to,
