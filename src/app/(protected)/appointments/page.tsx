@@ -32,6 +32,10 @@ const AppointmentsPage = async () => {
     redirect("/clinic-form");
   }
 
+  if (!session.user.plan) {
+    redirect("/new-subscription");
+  }
+
   const [appointments, patients, doctors] = await Promise.all([
     db.query.appointmentsTable.findMany({
       where: eq(appointmentsTable.clinicId, session.user.clinic.id),
