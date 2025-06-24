@@ -4,12 +4,15 @@ import {
   Gem,
   LayoutDashboard,
   LogOut,
+  Moon,
   Stethoscope,
+  Sun,
   UsersRound,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
@@ -61,6 +64,8 @@ export function AppSidebar() {
 
   const pathname = usePathname();
 
+  const { setTheme } = useTheme();
+
   const handleSignOut = async () => {
     await authClient.signOut({
       fetchOptions: {
@@ -74,7 +79,20 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="border-b p-4">
-        <Image src="/logo.svg" alt="Doutor Agenda" width={136} height={28} />
+        <Image
+          src="/logo.svg"
+          alt="Doutor Agenda"
+          className="block dark:hidden"
+          width={136}
+          height={28}
+        />
+        <Image
+          src="/logo-white-theme.svg"
+          alt="Doutor Agenda"
+          className="hidden dark:block"
+          width={136}
+          height={28}
+        />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -108,6 +126,31 @@ export function AppSidebar() {
                     <span>Assinatura</span>
                   </Link>
                 </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <SidebarMenuButton asChild>
+                      <div>
+                        <Sun /> Tema
+                      </div>
+                    </SidebarMenuButton>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => setTheme("light")}>
+                      <Sun />
+                      Claro
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setTheme("dark")}>
+                      <Moon />
+                      Escuro
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
