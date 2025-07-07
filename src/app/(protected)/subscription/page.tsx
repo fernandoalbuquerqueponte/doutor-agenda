@@ -29,7 +29,6 @@ const SubscriptionPage = async () => {
         </PageHeader>
         <PageContent>
           <SubscriptionPlan
-            className="w-[400px]"
             userEmail={session!.user.email}
             active={session!.user.plan === "essential"}
           />

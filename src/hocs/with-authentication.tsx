@@ -5,11 +5,9 @@ import { auth } from "@/lib/auth";
 
 const WithAuthentication = async ({
   children,
-  mustHavePlan = false,
   mustHaveClinic = false,
 }: {
   children: React.ReactNode;
-  mustHavePlan?: boolean;
   mustHaveClinic?: boolean;
 }) => {
   const session = await auth.api.getSession({
@@ -18,10 +16,6 @@ const WithAuthentication = async ({
 
   if (!session?.user) {
     redirect("/authentication");
-  }
-
-  if (mustHavePlan && !session.user.plan) {
-    redirect("/new-subscription");
   }
 
   if (mustHaveClinic && !session.user.clinic?.id) {

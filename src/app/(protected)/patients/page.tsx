@@ -11,6 +11,7 @@ import {
   PageHeaderContent,
   PageTitle,
 } from "@/components/ui/page-container";
+import { canUserAddResource } from "@/data/can-user-add";
 import { db } from "@/db";
 import { patientsTable } from "@/db/schema";
 import WithAuthentication from "@/hocs/with-authentication";
@@ -28,8 +29,10 @@ const PatientsPage = async () => {
     where: eq(patientsTable.clinicId, session!.user.clinic!.id),
   });
 
+  const canUserAddPatient = await canUserAddResource("patients");
+
   return (
-    <WithAuthentication mustHaveClinic mustHavePlan>
+    <WithAuthentication mustHaveClinic>
       <PageContainer>
         <PageHeader>
           <PageHeaderContent>
@@ -39,7 +42,7 @@ const PatientsPage = async () => {
             </PageDescription>
           </PageHeaderContent>
           <PageActions>
-            <AddPatientButton />
+            <AddPatientButton canUserAddPatient={canUserAddPatient} />
           </PageActions>
         </PageHeader>
         <PageContent>

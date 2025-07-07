@@ -11,6 +11,7 @@ import {
   PageHeaderContent,
   PageTitle,
 } from "@/components/ui/page-container";
+import { canUserAddResource } from "@/data/can-user-add";
 import { db } from "@/db";
 import { appointmentsTable, doctorsTable, patientsTable } from "@/db/schema";
 import WithAuthentication from "@/hocs/with-authentication";
@@ -40,8 +41,10 @@ const AppointmentsPage = async () => {
     }),
   ]);
 
+  const canUserAddAppointment = await canUserAddResource("appointments");
+
   return (
-    <WithAuthentication mustHaveClinic mustHavePlan>
+    <WithAuthentication mustHaveClinic>
       <PageContainer>
         <PageHeader>
           <PageHeaderContent>
@@ -51,7 +54,11 @@ const AppointmentsPage = async () => {
             </PageDescription>
           </PageHeaderContent>
           <PageActions>
-            <AddAppointmentButton patients={patients} doctors={doctors} />
+            <AddAppointmentButton
+              patients={patients}
+              doctors={doctors}
+              canUserAddAppointment={canUserAddAppointment}
+            />
           </PageActions>
         </PageHeader>
         <PageContent>

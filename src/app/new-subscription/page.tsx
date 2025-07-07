@@ -12,12 +12,12 @@ const SubscriptionPage = async () => {
 
   return (
     <WithAuthentication>
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 p-6">
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b p-6">
         <div className="mb-8 w-full max-w-3xl text-center">
-          <h1 className="mb-4 text-3xl font-bold text-gray-900">
+          <h1 className="text-foreground mb-4 text-3xl font-bold">
             Desbloqueie todo o potencial da sua clínica
           </h1>
-          <p className="mb-6 text-xl text-gray-600">
+          <p className="text-muted-foreground mb-6 text-xl">
             Para continuar utilizando nossa plataforma e transformar a gestão do
             seu consultório, é necessário escolher um plano que se adapte às
             suas necessidades.
@@ -35,7 +35,7 @@ const SubscriptionPage = async () => {
           </div>
         </div>
 
-        <div className="w-full max-w-md">
+        <div className="mx-auto">
           <SubscriptionPlan userEmail={session!.user.email} />
         </div>
 
